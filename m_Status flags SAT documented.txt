@@ -11,7 +11,7 @@ object_?_0xNN_0xNN_0xBB_0xGG_0xRR_0xYY
 
 Flags Byte 0xYY (yellow)
 
-bit_1:  SAT_ATTR_HIT			0x01	0b_00000001		(disp_info)		[unused]
+bit_1:  SAT_ATTR_HIT			0x01	0b_00000001		(disp_info)			[unused]
 bit_2:  SAT_ATTR_A02			0x02	0b_00000010		?				[unused]
 bit_3:  SAT_ATTR_A04			0x04	0b_00000100		?				[unused]
 bit_4:  SAT_ATTR_A08			0x08	0b_00001000		?				[unused]
@@ -27,7 +27,7 @@ bit_2:  SAT_ATTR_R02			0x02	0b_00000010		?				[unused]
 bit_3:  SAT_ATTR_FALL_FANCE		0x04	0b_00000100		(fall_fence)
 bit_4:  SAT_ATTR_JUMPOVER		0x08	0b_00001000		(jump_over)
 bit_5:  SAT_ATTR_FALL			0x10	0b_00010000		(fall)
-bit_6:  SAT_ATTR_UP				0x20	0b_00100000		(up)
+bit_6:  SAT_ATTR_UP			0x20	0b_00100000		(up)
 bit_7:  SAT_ATTR_PL_NOHIT		0x40	0b_01000000		(pl_nohit)
 bit_8:  SAT_ATTR_SEE_NOHIT		0x80	0b_10000000		(see_nohit)
 
@@ -35,12 +35,12 @@ Flags Byte 0xGG (green)
 
 bit_1:  SAT_ATTR_SPECIAL2		0x01	0b_00000001		?				[unused]
 bit_2:  SAT_ATTR_G02			0x02	0b_00000010		?				[unused]
-bit_3:  SAT_ATTR_ONLY_SEE_HIT	0x04	0b_00000100		(only_cam_hit)
+bit_3:  SAT_ATTR_ONLY_SEE_HIT		0x04	0b_00000100		(only_cam_hit)
 bit_4:  SAT_ATTR_CLIFF			0x08	0b_00001000		(cliff)
 bit_5:  SAT_ATTR_UP2			0x10	0b_00010000		(up2)
 bit_6:  SAT_ATTR_DOWN			0x20	0b_00100000		(down)
 bit_7:  SAT_ATTR_EM_NOHIT		0x40	0b_01000000		(em_nohit)
-bit_8:  SAT_ATTR_SMALL_NOHIT	0x80	0b_10000000		(small_nohit)
+bit_8:  SAT_ATTR_SMALL_NOHIT		0x80	0b_10000000		(small_nohit)
 
 Flags Byte 0xBB (blue)
 
@@ -50,8 +50,8 @@ bit_3:  SAT_ATTR_NO_EFF_SET		0x04	0b_00000100		(no_eff_set)
 bit_4:  SAT_ATTR_HIDE			0x08	0b_00001000		(hide)
 bit_5:  SAT_ATTR_DOWN2			0x10	0b_00010000		(down2)
 bit_6:  SAT_ATTR_FANCE			0x20	0b_00100000		(fence)
-bit_7:  SAT_ATTR_ROUTE_NOHIT	0x40	0b_01000000		(route_nohit)
-bit_8:  SAT_ATTR_STEPS			0x80	0b_10000000		(steps)			[unused]
+bit_7:  SAT_ATTR_ROUTE_NOHIT		0x40	0b_01000000		(route_nohit)
+bit_8:  SAT_ATTR_STEPS			0x80	0b_10000000		(steps)				[unused]
 
 
 by: JADERLINK / zatarita / mariokart64n

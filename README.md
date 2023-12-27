@@ -67,27 +67,27 @@ Programa destinado a reempacotar o arquivo SAT-EAT;
 
 Abaixo vou explicar como converter o seu arquivo usado na Tool do SoP-SAT-EAT, para a minha Tool;
 <br> Aviso: faça backup de seus arquivos antes de mudar, não me responsabilizo por perdas de dados;
-<br> Para saber os nomes das flags de cada byte veja o arquivo Flags.md desse repositório;
+<br> Para saber os nomes das flags de cada byte veja o arquivo [Flags.md](https://github.com/JADERLINK/RE4-SAT-EAT-TOOL/blob/main/Flags.md) desse repositório;
 <br> Atenção: As flags usadas no Eat são diferentes das usadas no Sat, então mesmo que sejam o mesmo valor, os significados são diferentes;
 <br> Para cada byte, eu nomeei de uma cor:
 
 Minha tool para ambas as versões do jogo:
 <br>**Collision#BB-GG-RR#**
-
+<br>
 <br>Para a tool do "Son of Percia" a ordem dos bytes muda de acordo com a versão do jogo:
-
+<br>
 <br> Para UHD:
 <br>**object\_?\_0xNN\_0xNN\_0xRR\_0x0xYY\_0xBB\_0xGG**
-
+<br>
 <br> Para 2007-PS2:
 <br>**object\_?\_0xNN\_0xNN\_0xBB\_0xGG\_0xRR\_0xYY**
-
+<br>
 <br> sendo:
 * **NN**: o valor desses dois bytes é sempre 0 (zero), eles não são utilizados pelo jogo;
 * **BB**: esse é o byte de cor BLUE;
 * **GG**: esse é o byte de cor GREEN;
 * **RR**: esse é o byte de cor RED;
-* **YY**: esse é o byte de cor YELLOW, esse byte omitido no meu programa, pois o programa calcula o valor desse byte automaticamente, ele define as conexões das edges de cada triangulo/face;
+* **YY**: esse é o byte de cor YELLOW, esse byte é omitido no meu programa, pois o programa calcula o valor desse byte automaticamente, ele define as conexões das edges de cada triangulo/face;
 
 ## Código de terceiro:
 
