@@ -1,0 +1,57 @@
+EAT (m_Status) list of flags
+
+JADERLINK Tool Object Name:
+Collision#BB-GG-RR#
+
+Son of Percia Tool Object Name:
+UHD
+object_?_0xNN_0xNN_0xRR_0xYY_0xBB_0xGG
+PS2
+object_?_0xNN_0xNN_0xBB_0xGG_0xRR_0xYY
+
+Flags Byte 0xYY (yellow)
+
+bit_1:  EAT_ATTR_HIT			0x01	0b_00000001			[unused]
+bit_2:  EAT_ATTR_A02			0x02	0b_00000010			[unused]
+bit_3:  EAT_ATTR_A04			0x04	0b_00000100			[unused]
+bit_4:  EAT_ATTR_A08			0x08	0b_00001000			[unused]
+bit_5:  EAT_ATTR_A10			0x10	0b_00010000			[unused]
+bit_6:  EAT_ATTR_V0_CANCEL		0x20	0b_00100000
+bit_7:  EAT_ATTR_V1_CANCEL		0x40	0b_01000000
+bit_8:  EAT_ATTR_V2_CANCEL		0x80	0b_10000000
+
+Flags Byte 0xRR (red)
+
+bit_1:  EAT_ATTR_R01			0x01	0b_00000001
+bit_2:  EAT_ATTR_R02			0x02	0b_00000010			[unused]
+bit_3:  EAT_ATTR_R04			0x04	0b_00000100			[unused]
+bit_4:  EAT_ATTR_R08			0x08	0b_00001000			[unused]
+bit_5:  EAT_ATTR_R10			0x10	0b_00010000
+bit_6:  EAT_ATTR_R20			0x20	0b_00100000
+bit_7:  EAT_ATTR_SMALL_NOHIT	0x40	0b_01000000
+bit_8:  EAT_ATTR_EFF_BIT0		0x80	0b_10000000
+
+Flags Byte 0xGG (green)
+
+bit_1:  EAT_ATTR_G01			0x01	0b_00000001
+bit_2:  EAT_ATTR_G02			0x02	0b_00000010			[unused]
+bit_3:  EAT_ATTR_G04			0x04	0b_00000100
+bit_4:  EAT_ATTR_G08			0x08	0b_00001000			[unused]
+bit_5:  EAT_ATTR_G10			0x10	0b_00010000
+bit_6:  EAT_ATTR_G20			0x20	0b_00100000
+bit_7:  EAT_ATTR_MIDDLE_NOHIT	0x40	0b_01000000
+bit_8:  EAT_ATTR_EFF_BIT1		0x80	0b_10000000
+
+Flags Byte 0xBB (blue)
+
+bit_1:  EAT_ATTR_SPECIAL		0x01	0b_00000001
+bit_2:  EAT_ATTR_B02			0x02	0b_00000010
+bit_3:  EAT_ATTR_B04			0x04	0b_00000100
+bit_4:  EAT_ATTR_B08			0x08	0b_00001000
+bit_5:  EAT_ATTR_B10			0x10	0b_00010000
+bit_6:  EAT_ATTR_B20			0x20	0b_00100000
+bit_7:  EAT_ATTR_NO_EFF_SET		0x40	0b_01000000
+bit_8:  EAT_ATTR_EFF_BIT2		0x80	0b_10000000
+
+
+by: JADERLINK / zatarita / mariokart64n
