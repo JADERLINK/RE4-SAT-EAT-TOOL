@@ -13,7 +13,7 @@ namespace RE4_SAT_EAT_Repack
     {
         public static FinalStructure Repack(StreamReader streamReader) 
         {
-            string pattern = "^(COLLISION#)([0-9|A-F]{1,2})(-)([0-9|A-F]{1,2})(-)([0-9|A-F]{1,2})(#).*$";
+            string pattern = "^(COLLISION#)([0-9|A-F]{1,2})(-)([0-9|A-F]{1,2})(-)([0-9|A-F]{1,2})(#|-).*$";
             System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern, System.Text.RegularExpressions.RegexOptions.CultureInvariant);
             //--------
 
@@ -33,7 +33,7 @@ namespace RE4_SAT_EAT_Repack
                 if (GroupName.StartsWith("COLLISION"))
                 {
                     //FIX NAME
-                    GroupName = GroupName.Replace("_", "#");
+                    GroupName = GroupName.Replace("_", "-").Replace("COLLISION-", "COLLISION#");
 
                     //REGEX
                     if (regex.IsMatch(GroupName))

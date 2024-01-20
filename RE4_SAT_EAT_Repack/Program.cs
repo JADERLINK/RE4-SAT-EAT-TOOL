@@ -9,7 +9,7 @@ namespace RE4_SAT_EAT_Repack
 {
     class Program
     {
-        public static string Version = "B.1.0.0.0 (2023-12-27)";
+        public static string Version = "B.1.0.0.1 (2024-01-20)";
 
         public static string headerText()
         {

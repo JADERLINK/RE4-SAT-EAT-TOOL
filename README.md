@@ -7,6 +7,10 @@ Programas destinados a extrair e reempacotar arquivo .SAT .EAT do RE4 de PS2, 20
 <br>SAT: é o arquivo de colisão para o player, inimigos, Ashley e a câmera;
 <br>EAT: é o arquivo de colisão para os projéteis, granadas e ovos, e para os itens que cai ao atirar neles;
 <br>Nota: Fiz vários testes, porém não posso garantir que vai funcionar 100% das vezes, caso você encontre algum erro que possa ser do programa, me contate (e-mail);
+<br>Aviso: as Normals das faces do modelo 3d para SAT/EAT devem ser do tipo "Flat", isto é, a normal tem que ser perpendicular à face (angulo de 90º), se não fizer isso a colisão vai ficar bugando.
+
+**Update B.1.0.0.1**
+<br>Corrigida a compatibilidade com 3dsMax, agora o programa aceita nomes de grupos com o caractere Underline ( _ );
 
 ## RE4_SAT_EAT_Extract.exe
 
@@ -27,13 +31,13 @@ A escala do arquivo é 100 vezes menor que a do jogo, sendo Y a altura.
 
 Veja o Exemplo:
 <br>![exemplo](exemplo.png)
-
 <br> O nome dos objetos tem que ser exatamente como é descrito abaixo:
 <br> Nota: o programa não diferencia minúsculas de maiúsculas.
 
 A nomenclatura dos nomes dos grupos/objetos pode ser:
 <br>**Collision#00-00-00#**
-<br>**Collision\_00-00-00\_**
+<br>**Collision\_00\_00\_00\_**
+<br>**Collision-00-00-00-**
 
 Sendo:
 * É obrigatório o nome do grupo começar com "Collision", e ser divido por # ou _
@@ -43,7 +47,7 @@ Sendo:
 * Esses números, na verdade, são um conjunto de flags, então cada bit significa uma coisa, veja a sessão de **Flags** para saber mais;
 * Cada um desses 3 bytes represento por uma cor, sendo na ordem: Blue, Green e Red;
 
-<br> ----> Sobre verificações de grupos:
+ ----> Sobre verificações de grupos:
 <br> * No Repack se ao lado direito do nome do grupo aparecer o texto "The group name is wrong;", significa que o nome do grupo está errado, e o seu arquivo vai ficar errado;
 <br> * E se ao lado direito aparecer "Warning: Group not used;" esse grupo esta sendo ignorado pelo meu programa, caso, na verdade, você gostaria de usá-lo, você deve arrumar o nome do grupo;
 
@@ -95,4 +99,4 @@ Minha tool para ambas as versões do jogo:
 Encontra-se no RE4_SAT_EAT_REPACK, código modificado, as modificações podem ser vistas aqui: [link](https://github.com/JADERLINK/ObjLoader).
 
 **At.te: JADERLINK**
-<br>2023-12-27
+<br>2024-01-20
