@@ -5,36 +5,41 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace RE4_SAT_EAT_Repack
+namespace RE4_SAT_EAT_REPACK
 {
     class Program
     {
-        public static string Version = "B.1.0.0.1 (2024-01-20)";
+        public static string Version = "B.1.0.2 (2024-08-13)";
 
         public static string headerText()
         {
-            return "# RE4_SAT_EAT_Repack" + Environment.NewLine +
+            return "# RE4_SAT_EAT_REPACK" + Environment.NewLine +
                    "# by: JADERLINK" + Environment.NewLine +
+                   "# youtube.com/@JADERLINK" + Environment.NewLine +
                    "# Thanks to \"mariokart64n\" and \"zatarita\"" + Environment.NewLine +
                   $"# Version {Version}";
         }
 
         static void Main(string[] args)
         {
+            System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+
             Console.WriteLine(headerText());
 
             if (args.Length == 0)
             {
                 Console.WriteLine("For more information read:");
                 Console.WriteLine("https://github.com/JADERLINK/RE4-SAT-EAT-TOOL");
+                Console.WriteLine("Press any key to close the console.");
+                Console.ReadKey();
             }
             else if (args.Length >= 1 && File.Exists(args[0]))
             {
-                FileInfo file = new FileInfo(args[0]);
-                Console.WriteLine(file.Name);
+                FileInfo fileInfo = new FileInfo(args[0]);
+                Console.WriteLine(fileInfo.Name);
 
-                if (file.Extension.ToUpperInvariant() == ".IDXSAT" ||
-                    file.Extension.ToUpperInvariant() == ".IDXEAT")
+                if (fileInfo.Extension.ToUpperInvariant() == ".IDXSAT" ||
+                    fileInfo.Extension.ToUpperInvariant() == ".IDXEAT")
                 {
                     bool switchStatus = false;
                     bool enableDebugFiles = false;
@@ -51,7 +56,7 @@ namespace RE4_SAT_EAT_Repack
 
                     try
                     {
-                        Action(file, switchStatus, enableDebugFiles);
+                        Action(fileInfo, switchStatus, enableDebugFiles);
 
                     }
                     catch (Exception ex)
@@ -61,23 +66,36 @@ namespace RE4_SAT_EAT_Repack
                 }
                 else
                 {
-                    Console.WriteLine("Wrong file");
+                    Console.WriteLine("The extension is not valid: " + fileInfo.Extension);
                 }
 
             }
             else
             {
-                Console.WriteLine("The file does not exist");
+                Console.WriteLine("File specified does not exist.");
             }
 
-            Console.WriteLine("End");
+            Console.WriteLine("Finished!!!");
         }
 
-        private static void Action(FileInfo file, bool switchStatus, bool enableDebugFiles) 
+        private static void Action(FileInfo fileInfo, bool switchStatus, bool enableDebugFiles) 
         {
-            string baseFilePath = file.FullName.Substring(0, file.FullName.Length - file.Extension.Length);
+            string baseDirectory = Path.GetDirectoryName(fileInfo.FullName);
+            string baseFileName = Path.GetFileNameWithoutExtension(fileInfo.FullName);
+            string baseExtension = Path.GetExtension(fileInfo.FullName).ToLowerInvariant().Replace(".", "");
+            string finalExtension = baseExtension.ToUpperInvariant().Replace("IDX", "");
 
-            var stream = new StreamReader(file.OpenRead(), Encoding.ASCII); // idxsat/idxeat
+            string baseFilePath = Path.Combine(baseDirectory, baseFileName);
+
+            string pattern = "^(00)([0-9]{2})$";
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern, System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+            if (regex.IsMatch(baseFileName))
+            {
+                baseFilePath = Path.Combine(baseDirectory, baseFileName + "_" + finalExtension);
+            }
+
+            var stream = new StreamReader(fileInfo.OpenRead(), Encoding.ASCII); // idxsat/idxeat
             var idx = IdxLoader.Loader(stream);
             stream.Close();
 
@@ -148,8 +166,8 @@ namespace RE4_SAT_EAT_Repack
                 }
             }
 
-            string finalExtension = file.Extension.ToUpperInvariant().Replace("IDX", "");
-            FileInfo esatinfo = new FileInfo(baseFilePath + finalExtension);
+            
+            FileInfo esatinfo = new FileInfo(Path.Combine(baseDirectory, baseFileName + "." + finalExtension));
             Console.WriteLine("Creating the file: " + esatinfo.Name);
 
             MakeFile.CreateFile(esatinfo, idx, esatObj, switchStatus);

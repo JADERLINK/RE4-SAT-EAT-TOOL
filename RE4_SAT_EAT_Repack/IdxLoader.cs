@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace RE4_SAT_EAT_Repack
+namespace RE4_SAT_EAT_REPACK
 {
     public static class IdxLoader
     {

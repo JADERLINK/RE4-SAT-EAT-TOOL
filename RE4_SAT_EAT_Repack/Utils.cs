@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RE4_SAT_EAT_Repack
+namespace RE4_SAT_EAT_REPACK
 {
     public static class Utils
     {
         public static string ReturnValidHexValue(string cont)
         {
             string res = "";
-            foreach (var c in cont)
+            foreach (var c in cont.ToUpperInvariant())
             {
                 if (char.IsDigit(c)
                     || c == 'A'

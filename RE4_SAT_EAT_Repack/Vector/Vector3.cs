@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RE4_SAT_EAT_Repack.Vector
+namespace RE4_SAT_EAT_REPACK.Vector
 {
     /// <summary>
     /// Representação de um Vector3, usado para Position/Normal

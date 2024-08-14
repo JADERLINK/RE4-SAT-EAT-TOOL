@@ -5,36 +5,41 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace RE4_SAT_EAT_Extract
+namespace RE4_SAT_EAT_EXTRACT
 {
     class Program
     {
-        public static string Version = "B.1.0.0.0 (2023-12-27)";
+        public static string Version = "B.1.0.2 (2024-08-13)";
 
         public static string headerText()
         {
-            return "# RE4_SAT_EAT_Extract" + Environment.NewLine +
+            return "# RE4_SAT_EAT_EXTRACT" + Environment.NewLine +
                    "# by: JADERLINK" + Environment.NewLine +
+                   "# youtube.com/@JADERLINK" + Environment.NewLine +
                    "# Thanks to \"mariokart64n\" and \"zatarita\"" + Environment.NewLine +
                   $"# Version {Version}";
         }
 
         static void Main(string[] args)
         {
+            System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+
             Console.WriteLine(headerText());
 
             if (args.Length == 0)
             {
                 Console.WriteLine("For more information read:");
                 Console.WriteLine("https://github.com/JADERLINK/RE4-SAT-EAT-TOOL");
+                Console.WriteLine("Press any key to close the console.");
+                Console.ReadKey();
             }
             else if (args.Length >= 1 && File.Exists(args[0]))
             {
-                FileInfo file = new FileInfo(args[0]);
-                Console.WriteLine(file.Name);
+                FileInfo fileInfo = new FileInfo(args[0]);
+                Console.WriteLine(fileInfo.Name);
 
-                if (file.Extension.ToUpperInvariant() == ".SAT" ||
-                    file.Extension.ToUpperInvariant() == ".EAT")
+                if (fileInfo.Extension.ToUpperInvariant() == ".SAT" ||
+                    fileInfo.Extension.ToUpperInvariant() == ".EAT")
                 {
                     bool switchStatus = false;
                     bool enableDebugFiles = false;
@@ -51,13 +56,25 @@ namespace RE4_SAT_EAT_Extract
 
                     try
                     {
-                        string baseFilePath = file.FullName.Substring(0, file.FullName.Length - file.Extension.Length);
+                        string baseDirectory = Path.GetDirectoryName(fileInfo.FullName);
+                        string baseFileName = Path.GetFileNameWithoutExtension(fileInfo.FullName);
+                        string baseExtension = Path.GetExtension(fileInfo.FullName).ToLowerInvariant().Replace(".", "");
 
-                        var stream = file.OpenRead();
+                        string baseFilePath = Path.Combine(baseDirectory, baseFileName);
+
+                        string pattern = "^(00)([0-9]{2})$";
+                        System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern, System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+                        if (regex.IsMatch(baseFileName))
+                        {
+                            baseFilePath = Path.Combine(baseDirectory, baseFileName + "_" + baseExtension.ToUpperInvariant());
+                        }
+
+                        var stream = fileInfo.OpenRead();
                         var esatHeader = Extractor.Extract(stream);
                         stream.Close();
 
-                        FileInfo idx = new FileInfo(baseFilePath + ".idx" + file.Extension.ToLowerInvariant().Replace(".", ""));
+                        FileInfo idx = new FileInfo(Path.Combine(baseDirectory, baseFileName + ".idx" + baseExtension));
                         Console.WriteLine("Creating the file: "+ idx.Name);
                         OutputFiles.IDX(idx, esatHeader);
 
@@ -97,17 +114,16 @@ namespace RE4_SAT_EAT_Extract
                 }
                 else
                 {
-                    Console.WriteLine("Wrong file");
+                    Console.WriteLine("The extension is not valid: " + fileInfo.Extension);
                 }
 
             }
             else
             {
-                Console.WriteLine("The file does not exist");
+                Console.WriteLine("File specified does not exist.");
             }
 
-
-            Console.WriteLine("End");
+            Console.WriteLine("Finished!!!");
         }
     }
 }

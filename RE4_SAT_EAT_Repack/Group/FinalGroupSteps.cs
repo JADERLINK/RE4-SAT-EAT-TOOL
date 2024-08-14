@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RE4_SAT_EAT_Repack.Group
+namespace RE4_SAT_EAT_REPACK.Group
 {
     public static class FinalGroupSteps
     {

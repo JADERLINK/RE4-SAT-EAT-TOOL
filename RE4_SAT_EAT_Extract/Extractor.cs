@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace RE4_SAT_EAT_Extract
+namespace RE4_SAT_EAT_EXTRACT
 {
     public static class Extractor
     {

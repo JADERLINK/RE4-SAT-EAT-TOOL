@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{ED33B99A-59C8-4B2C-8D97-F0FE77FF7D86}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>RE4_SAT_EAT_Extract</RootNamespace>
-    <AssemblyName>RE4_SAT_EAT_Extract</AssemblyName>
+    <RootNamespace>RE4_SAT_EAT_EXTRACT</RootNamespace>
+    <AssemblyName>RE4_SAT_EAT_EXTRACT</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>RE4_SAT_EAT_Extract.Program</StartupObject>
+    <StartupObject>RE4_SAT_EAT_EXTRACT.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
@@ -54,6 +54,7 @@
     <Compile Include="ESAT.cs" />
     <Compile Include="Extractor.cs" />
     <Compile Include="Extras.cs" />
+    <Compile Include="FloatExtensions.cs" />
     <Compile Include="OutputFiles.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

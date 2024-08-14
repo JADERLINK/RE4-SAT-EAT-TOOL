@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // As informações gerais sobre um assembly são controladas por
 // conjunto de atributos. Altere estes valores de atributo para modificar as informações
 // associadas a um assembly.
-[assembly: AssemblyTitle("RE4_SAT_EAT_Extract")]
-[assembly: AssemblyDescription("RE4_SAT_EAT_Extract")]
+[assembly: AssemblyTitle("RE4_SAT_EAT_EXTRACT")]
+[assembly: AssemblyDescription("RE4_SAT_EAT_EXTRACT")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("JADERLINK")]
-[assembly: AssemblyProduct("RE4_SAT_EAT_Extract")]
-[assembly: AssemblyCopyright("Copyright ©JADERLINK 2023")]
+[assembly: AssemblyProduct("RE4_SAT_EAT_EXTRACT")]
+[assembly: AssemblyCopyright("Copyright ©JADERLINK 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

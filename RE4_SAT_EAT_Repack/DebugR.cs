@@ -4,17 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using RE4_SAT_EAT_Repack.Structures;
-using RE4_SAT_EAT_Repack.Group;
+using RE4_SAT_EAT_REPACK.Structures;
+using RE4_SAT_EAT_REPACK.Group;
 
-namespace RE4_SAT_EAT_Repack
+namespace RE4_SAT_EAT_REPACK
 {
     public static class DebugR
     {
         public static void EsatDebugOBJ(FileInfo info, FinalStructure esat)
         {
-            var inv = System.Globalization.CultureInfo.InvariantCulture;
-
             var text = info.CreateText();
             text.WriteLine(Program.headerText());
             text.WriteLine("");
@@ -35,13 +33,14 @@ namespace RE4_SAT_EAT_Repack
             text.WriteLine("");
             for (int i = 0; i < esat.Positions.Length; i++)
             {
-                float x = esat.Positions[i].X;
-                float y = esat.Positions[i].Y;
-                float z = esat.Positions[i].Z;
+                float x = esat.Positions[i].X / 100f;
+                float y = esat.Positions[i].Y / 100f;
+                float z = esat.Positions[i].Z / 100f;
 
-                text.WriteLine("v " + (x / 100f).ToString("F9", inv) + " " +
-                     (y / 100f).ToString("F9", inv) + " " +
-                     (z / 100f).ToString("F9", inv));
+                text.WriteLine("v " +
+                    x.ToFloatString() + " " +
+                    y.ToFloatString() + " " +
+                    z.ToFloatString());
             }
 
             for (int i = 0; i < esat.Normals.Length; i++)
@@ -50,9 +49,10 @@ namespace RE4_SAT_EAT_Repack
                 float y = esat.Normals[i].Y;
                 float z = esat.Normals[i].Z;
 
-                text.WriteLine("vn " + x.ToString("F9", inv) + " " +
-                    y.ToString("F9", inv) + " " +
-                    z.ToString("F9", inv));
+                text.WriteLine("vn " + 
+                    x.ToFloatString() + " " +
+                    y.ToFloatString() + " " +
+                    z.ToFloatString());
             }
 
             string faceType = "F";
@@ -103,8 +103,6 @@ namespace RE4_SAT_EAT_Repack
 
         public static void EsatGroupPlaneOBJ(FileInfo info, GroupStructure esat)
         {
-            var inv = System.Globalization.CultureInfo.InvariantCulture;
-
             var text = info.CreateText();
             text.WriteLine(Program.headerText());
             text.WriteLine("");
@@ -146,24 +144,28 @@ namespace RE4_SAT_EAT_Repack
                     var bound_dim = group.Dim;
 
                     //original -- A
-                    text.WriteLine("v " + (bound_pos.X / 100f).ToString("F9", inv) + " " +
-                       ((bound_pos.Y + climbHeight) / 100f).ToString("F9", inv) + " " +
-                        (bound_pos.Z / 100f).ToString("F9", inv));
+                    text.WriteLine("v " + 
+                        (bound_pos.X / 100f).ToFloatString() + " " +
+                        ((bound_pos.Y + climbHeight) / 100f).ToFloatString() + " " +
+                        (bound_pos.Z / 100f).ToFloatString());
 
                     //X -- D
-                    text.WriteLine("v " + ((bound_pos.X + bound_dim.X) / 100f).ToString("F9", inv) + " " +
-                     ((bound_pos.Y + climbHeight) / 100f).ToString("F9", inv) + " " +
-                     ((bound_pos.Z) / 100f).ToString("F9", inv));
+                    text.WriteLine("v " + 
+                        ((bound_pos.X + bound_dim.X) / 100f).ToFloatString() + " " +
+                        ((bound_pos.Y + climbHeight) / 100f).ToFloatString() + " " +
+                        ((bound_pos.Z) / 100f).ToFloatString());
 
                     //Z -- B
-                    text.WriteLine("v " + ((bound_pos.X) / 100f).ToString("F9", inv) + " " +
-                    ((bound_pos.Y + climbHeight) / 100f).ToString("F9", inv) + " " +
-                    ((bound_pos.Z + bound_dim.Z) / 100f).ToString("F9", inv));
+                    text.WriteLine("v " + 
+                        ((bound_pos.X) / 100f).ToFloatString() + " " +
+                        ((bound_pos.Y + climbHeight) / 100f).ToFloatString() + " " +
+                        ((bound_pos.Z + bound_dim.Z) / 100f).ToFloatString());
 
                     //XZ -- C
-                    text.WriteLine("v " + ((bound_pos.X + bound_dim.X) / 100f).ToString("F9", inv) + " " +
-                    ((bound_pos.Y + climbHeight) / 100f).ToString("F9", inv) + " " +
-                    ((bound_pos.Z + bound_dim.Z) / 100f).ToString("F9", inv));
+                    text.WriteLine("v " + 
+                        ((bound_pos.X + bound_dim.X) / 100f).ToFloatString() + " " +
+                        ((bound_pos.Y + climbHeight) / 100f).ToFloatString() + " " +
+                        ((bound_pos.Z + bound_dim.Z) / 100f).ToFloatString());
 
 
                     text.WriteLine("f " + (index + 2) + " " + (index + 3) + " " + (index));
@@ -217,8 +219,6 @@ namespace RE4_SAT_EAT_Repack
 
         public static void EsatGroupPlaneOBJ(FileInfo info, FinalGroupStructure esat)
         {
-            var inv = System.Globalization.CultureInfo.InvariantCulture;
-
             var text = info.CreateText();
             text.WriteLine(Program.headerText());
             text.WriteLine("");
@@ -257,24 +257,28 @@ namespace RE4_SAT_EAT_Repack
                 var bound_dim = group.Dim;
 
                 //original -- A
-                text.WriteLine("v " + (bound_pos.X / 100f).ToString("F9", inv) + " " +
-                   ((bound_pos.Y + climbHeight) / 100f).ToString("F9", inv) + " " +
-                    (bound_pos.Z / 100f).ToString("F9", inv));
+                text.WriteLine("v " + 
+                    (bound_pos.X / 100f).ToFloatString() + " " +
+                    ((bound_pos.Y + climbHeight) / 100f).ToFloatString() + " " +
+                    (bound_pos.Z / 100f).ToFloatString());
 
                 //X -- D
-                text.WriteLine("v " + ((bound_pos.X + bound_dim.X) / 100f).ToString("F9", inv) + " " +
-                 ((bound_pos.Y + climbHeight) / 100f).ToString("F9", inv) + " " +
-                 ((bound_pos.Z) / 100f).ToString("F9", inv));
+                text.WriteLine("v " + 
+                    ((bound_pos.X + bound_dim.X) / 100f).ToFloatString() + " " +
+                    ((bound_pos.Y + climbHeight) / 100f).ToFloatString() + " " +
+                    ((bound_pos.Z) / 100f).ToFloatString());
 
                 //Z -- B
-                text.WriteLine("v " + ((bound_pos.X) / 100f).ToString("F9", inv) + " " +
-                ((bound_pos.Y + climbHeight) / 100f).ToString("F9", inv) + " " +
-                ((bound_pos.Z + bound_dim.Z) / 100f).ToString("F9", inv));
+                text.WriteLine("v " + 
+                    ((bound_pos.X) / 100f).ToFloatString() + " " +
+                    ((bound_pos.Y + climbHeight) / 100f).ToFloatString() + " " +
+                    ((bound_pos.Z + bound_dim.Z) / 100f).ToFloatString());
 
                 //XZ -- C
-                text.WriteLine("v " + ((bound_pos.X + bound_dim.X) / 100f).ToString("F9", inv) + " " +
-                ((bound_pos.Y + climbHeight) / 100f).ToString("F9", inv) + " " +
-                ((bound_pos.Z + bound_dim.Z) / 100f).ToString("F9", inv));
+                text.WriteLine("v " + 
+                    ((bound_pos.X + bound_dim.X) / 100f).ToFloatString() + " " +
+                    ((bound_pos.Y + climbHeight) / 100f).ToFloatString() + " " +
+                    ((bound_pos.Z + bound_dim.Z) / 100f).ToFloatString());
 
 
                 text.WriteLine("f " + (index + 2) + " " + (index + 3) + " " + (index));

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RE4_SAT_EAT_Extract
+namespace RE4_SAT_EAT_EXTRACT
 {
     public struct Vec3 
     {

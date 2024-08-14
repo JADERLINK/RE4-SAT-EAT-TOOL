@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace RE4_SAT_EAT_Extract
+namespace RE4_SAT_EAT_EXTRACT
 {
     public static class OutputFiles
     {
@@ -22,21 +22,20 @@ namespace RE4_SAT_EAT_Extract
 
         public static void EsatOBJ(FileInfo info, ESAT esat, bool switchStatus)
         {
-            var inv = System.Globalization.CultureInfo.InvariantCulture;
-
             var text = info.CreateText();
             text.WriteLine(Program.headerText());
             text.WriteLine("");
 
             for (int i = 0; i < esat.Vertex_pos_count; i++)
             {
-                float x = esat.Positions[i].X;
-                float y = esat.Positions[i].Y;
-                float z = esat.Positions[i].Z;
+                float x = esat.Positions[i].X / 100f;
+                float y = esat.Positions[i].Y / 100f;
+                float z = esat.Positions[i].Z / 100f;
 
-                text.WriteLine("v " + (x / 100f).ToString("F9", inv) + " " +
-                     (y / 100f).ToString("F9", inv) + " " +
-                     (z / 100f).ToString("F9", inv));
+                text.WriteLine("v " +
+                  x.ToFloatString() + " " +
+                  y.ToFloatString() + " " +
+                  z.ToFloatString());
             }
 
             for (int i = 0; i < esat.Face_normal_count; i++)
@@ -45,9 +44,10 @@ namespace RE4_SAT_EAT_Extract
                 float y = esat.Normals[i].Y;
                 float z = esat.Normals[i].Z;
 
-                text.WriteLine("vn " + x.ToString("F9", inv) + " " +
-                    y.ToString("F9", inv) + " " +
-                    z.ToString("F9", inv));
+                text.WriteLine("vn " + 
+                    x.ToFloatString() + " " +
+                    y.ToFloatString() + " " +
+                    z.ToFloatString());
 
             }
 

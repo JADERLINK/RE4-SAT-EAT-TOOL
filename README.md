@@ -1,13 +1,17 @@
 # RE4-SAT-EAT-TOOL
 Extract and repack RE4 SAT-EAT files (RE4 ubisoft/2007/steam/uhd/Ps2)
 
-Translate from Portuguese Brazil
+**Translate from Portuguese Brazil**
 
 Programas destinados a extrair e reempacotar arquivo .SAT .EAT do RE4 de PS2, 2007, UHD.
 <br>SAT: é o arquivo de colisão para o player, inimigos, Ashley e a câmera;
 <br>EAT: é o arquivo de colisão para os projéteis, granadas e ovos, e para os itens que cai ao atirar neles;
 <br>Nota: Fiz vários testes, porém não posso garantir que vai funcionar 100% das vezes, caso você encontre algum erro que possa ser do programa, me contate (e-mail);
 <br>Aviso: as Normals das faces do modelo 3d para SAT/EAT devem ser do tipo "Flat", isto é, a normal tem que ser perpendicular à face (angulo de 90º), se não fizer isso a colisão vai ficar bugando.
+
+**Update B.1.0.2**
+<br>Nessa nova versão, para arquivos "0000.SAT" e "0000.EAT", irá gerar arquivos .obj de nome "0000_SAT_0.obj" e "0000_EAT_0.obj" respectivamente, mudança feita para evitar sobreposição de arquivos.
+<br>Agora, o programa, ao gerar o arquivo .obj, não terá mais os zeros não significativos dos números, mudança feita para gerar arquivos menores.
 
 **Update B.1.0.0.1**
 <br>Corrigida a compatibilidade com 3dsMax, agora o programa aceita nomes de grupos com o caractere Underline ( _ );
@@ -32,7 +36,7 @@ A escala do arquivo é 100 vezes menor que a do jogo, sendo Y a altura.
 Veja o Exemplo:
 <br>![exemplo](exemplo.png)
 <br> O nome dos objetos tem que ser exatamente como é descrito abaixo:
-<br> Nota: o programa não diferencia minúsculas de maiúsculas.
+<br> Nota: o programa não diferencia letras minúsculas de maiúsculas.
 
 A nomenclatura dos nomes dos grupos/objetos pode ser:
 <br>**Collision#00-00-00#**
@@ -60,7 +64,7 @@ Programa destinado a reempacotar o arquivo SAT-EAT;
 
 
 ## Sobre .idxsat / .idxeat
-<br> Os dois tipos de idx tem o mesmo tipo de conteúdo, o nome é diferente para que o arquivo gerado pelo repack seja do formato correto;
+Os dois tipos de idx tem o mesmo tipo de conteúdo, o nome é diferente para que o arquivo gerado pelo repack seja do formato correto;
 <br> Nota: Na verdade, você não precisa editar o conteúdo desse arquivo;
 <br> Segue a baixo a lista de comando presente no arquivo:
 * Magic: o valor pode ser 80 ou 20, sendo que 80 pode ter 1 ou mais arquivo .obj, e 20 somente 1 arquivo .obj;
@@ -68,7 +72,6 @@ Programa destinado a reempacotar o arquivo SAT-EAT;
 * Dummy: esse é um campo em hexadecimal de 2 bytes, esse campo só é valido se o Magic for 80, não sei para que serve esse campo no arquivo, mas é para não ter utilidade no arquivo.
 
 ## Sobre Flags e converter da "SoP Tool"
-
 Abaixo vou explicar como converter o seu arquivo usado na Tool do SoP-SAT-EAT, para a minha Tool;
 <br> Aviso: faça backup de seus arquivos antes de mudar, não me responsabilizo por perdas de dados;
 <br> Para saber os nomes das flags de cada byte veja o arquivo [Flags.md](https://github.com/JADERLINK/RE4-SAT-EAT-TOOL/blob/main/Flags.md) desse repositório;
@@ -99,4 +102,5 @@ Minha tool para ambas as versões do jogo:
 Encontra-se no RE4_SAT_EAT_REPACK, código modificado, as modificações podem ser vistas aqui: [link](https://github.com/JADERLINK/ObjLoader).
 
 **At.te: JADERLINK**
-<br>2024-01-20
+<br>Thanks to "mariokart64n" and "zatarita"
+<br>2024-08-13

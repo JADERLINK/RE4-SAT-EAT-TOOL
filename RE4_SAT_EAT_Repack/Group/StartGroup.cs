@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RE4_SAT_EAT_Repack.Structures;
-using RE4_SAT_EAT_Repack.Vector;
+using RE4_SAT_EAT_REPACK.Structures;
+using RE4_SAT_EAT_REPACK.Vector;
 
-namespace RE4_SAT_EAT_Repack.Group
+namespace RE4_SAT_EAT_REPACK.Group
 {
     public static class StartGroup
     {
