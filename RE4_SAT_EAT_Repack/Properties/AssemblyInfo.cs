@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // conjunto de atributos. Altere estes valores de atributo para modificar as informações
 // associadas a um assembly.
 [assembly: AssemblyTitle("RE4_SAT_EAT_REPACK")]
-[assembly: AssemblyDescription("RE4_SAT_EAT_REPACK")]
+[assembly: AssemblyDescription("RE4_SAT_EAT_REPACK by JADERLINK")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("JADERLINK")]
 [assembly: AssemblyProduct("RE4_SAT_EAT_REPACK")]

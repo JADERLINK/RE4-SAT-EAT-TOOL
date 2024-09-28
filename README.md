@@ -1,5 +1,5 @@
 # RE4-SAT-EAT-TOOL
-Extract and repack RE4 SAT-EAT files (RE4 ubisoft/2007/steam/uhd/Ps2)
+Extract and repack RE4 SAT-EAT files (RE4 2007/PS2/UHD/PS4/NS)
 
 **Translate from Portuguese Brazil**
 
@@ -9,6 +9,9 @@ Programas destinados a extrair e reempacotar arquivo .SAT .EAT do RE4 de PS2, 20
 <br>Nota: Fiz vários testes, porém não posso garantir que vai funcionar 100% das vezes, caso você encontre algum erro que possa ser do programa, me contate (e-mail);
 <br>Aviso: as Normals das faces do modelo 3d para SAT/EAT devem ser do tipo "Flat", isto é, a normal tem que ser perpendicular à face (angulo de 90º), se não fizer isso a colisão vai ficar bugando.
 
+**Update B.1.1.0**
+<br>Adicionado suporte para as versões de PS4 e NS;
+
 **Update B.1.0.2**
 <br>Nessa nova versão, para arquivos "0000.SAT" e "0000.EAT", irá gerar arquivos .obj de nome "0000_SAT_0.obj" e "0000_EAT_0.obj" respectivamente, mudança feita para evitar sobreposição de arquivos.
 <br>Agora, o programa, ao gerar o arquivo .obj, não terá mais os zeros não significativos dos números, mudança feita para gerar arquivos menores.
@@ -16,15 +19,15 @@ Programas destinados a extrair e reempacotar arquivo .SAT .EAT do RE4 de PS2, 20
 **Update B.1.0.0.1**
 <br>Corrigida a compatibilidade com 3dsMax, agora o programa aceita nomes de grupos com o caractere Underline ( _ );
 
-## RE4_SAT_EAT_Extract.exe
+## RE4_SAT_EAT_EXTRACT.exe
 
 Programa destinado a extrair o arquivo SAT ou EAT;
-(escolha o .bat da mesma versão do seu jogo, caso você escolher a versão errada, o programa não vai dar erro, porem o arquivo .obj vai ficar errado) 
-O programa ira gerar os arquivo:
+(escolha o .bat da mesma versão do seu jogo, caso você escolher a versão errada, o programa não vai dar erro, porém o arquivo .obj vai ficar errado) 
+O programa irá gerar os arquivo:
 
 * .OBJ, esse é o arquivo no qual vai ser editado, veja as informações abaixo.
-* .IDXSAT, esse arquivo é necessário para o repack, com ele você ira recriar um arquivo SAT;
-* .IDXEAT, esse arquivo é necessário para o repack, com ele você ira recriar um arquivo EAT;
+* .IDXSAT, esse arquivo é necessário para o repack, com ele você irá recriar um arquivo SAT;
+* .IDXEAT, esse arquivo é necessário para o repack, com ele você irá recriar um arquivo EAT;
 * Nota: você pode receber de 1 a vários arquivos .obj;
 * Nota2: você só vai ter somente um dos dois IDX vai depender de qual arquivo você extraiu;
 
@@ -33,7 +36,7 @@ O programa ira gerar os arquivo:
 A escala do arquivo é 100 vezes menor que a do jogo, sendo Y a altura.
 <br> O nome desse arquivo é o nome do arquivo extraído mais um número, ex: filename_0.obj
 
-Veja o Exemplo:
+Veja o exemplo:
 <br>![exemplo](exemplo.png)
 <br> O nome dos objetos tem que ser exatamente como é descrito abaixo:
 <br> Nota: o programa não diferencia letras minúsculas de maiúsculas.
@@ -49,14 +52,14 @@ Sendo:
 * Sendo 00 um número em hexadecimal que vai de 00 a FF;
 * Os números devem ser divididos pelo sinal de menos -
 * Esses números, na verdade, são um conjunto de flags, então cada bit significa uma coisa, veja a sessão de **Flags** para saber mais;
-* Cada um desses 3 bytes represento por uma cor, sendo na ordem: Blue, Green e Red;
+* Cada um desses 3 bytes represento com uma cor, sendo na ordem: Blue, Green e Red;
 
- ----> Sobre verificações de grupos:
+ ----> Sobre verificações de grupos:
 <br> * No Repack se ao lado direito do nome do grupo aparecer o texto "The group name is wrong;", significa que o nome do grupo está errado, e o seu arquivo vai ficar errado;
 <br> * E se ao lado direito aparecer "Warning: Group not used;" esse grupo esta sendo ignorado pelo meu programa, caso, na verdade, você gostaria de usá-lo, você deve arrumar o nome do grupo;
 
 
-## RE4_SAT_EAT_Repack.exe
+## RE4_SAT_EAT_REPACK.exe
 
 Programa destinado a reempacotar o arquivo SAT-EAT;
 <br> Nota: escolha o .bat da mesma versão do seu jogo.
@@ -64,9 +67,9 @@ Programa destinado a reempacotar o arquivo SAT-EAT;
 
 
 ## Sobre .idxsat / .idxeat
-Os dois tipos de idx tem o mesmo tipo de conteúdo, o nome é diferente para que o arquivo gerado pelo repack seja do formato correto;
+Os dois tipos de idx têm o mesmo tipo de conteúdo, o nome é diferente para que o arquivo gerado pelo repack seja do formato correto;
 <br> Nota: Na verdade, você não precisa editar o conteúdo desse arquivo;
-<br> Segue a baixo a lista de comando presente no arquivo:
+<br> Segue abaixo a lista de comando presente no arquivo:
 * Magic: o valor pode ser 80 ou 20, sendo que 80 pode ter 1 ou mais arquivo .obj, e 20 somente 1 arquivo .obj;
 * Count: essa é a quantidade de arquivos obj;
 * Dummy: esse é um campo em hexadecimal de 2 bytes, esse campo só é valido se o Magic for 80, não sei para que serve esse campo no arquivo, mas é para não ter utilidade no arquivo.
@@ -103,4 +106,4 @@ Encontra-se no RE4_SAT_EAT_REPACK, código modificado, as modificações podem s
 
 **At.te: JADERLINK**
 <br>Thanks to "mariokart64n" and "zatarita"
-<br>2024-08-13
+<br>2024-09-28

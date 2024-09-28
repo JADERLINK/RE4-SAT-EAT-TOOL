@@ -9,7 +9,7 @@ namespace RE4_SAT_EAT_REPACK
 {
     class Program
     {
-        public static string Version = "B.1.0.2 (2024-08-13)";
+        public static string Version = "B.1.1.0 (2024-09-28)";
 
         public static string headerText()
         {
@@ -33,52 +33,95 @@ namespace RE4_SAT_EAT_REPACK
                 Console.WriteLine("Press any key to close the console.");
                 Console.ReadKey();
             }
-            else if (args.Length >= 1 && File.Exists(args[0]))
+            else if (args.Length >= 2)
             {
-                FileInfo fileInfo = new FileInfo(args[0]);
-                Console.WriteLine(fileInfo.Name);
-
-                if (fileInfo.Extension.ToUpperInvariant() == ".IDXSAT" ||
-                    fileInfo.Extension.ToUpperInvariant() == ".IDXEAT")
+                if (File.Exists(args[0]))
                 {
                     bool switchStatus = false;
-                    bool enableDebugFiles = false;
 
-                    if (args.Length >= 2 && args[1].ToUpper() == "TRUE")
+                    bool isUHD = false;
+                    bool isPS2 = false;
+                    bool isPS4NS = false;
+
+                    string arg = args[1].ToUpper();
+                    if (arg.Contains("UHD"))
                     {
                         switchStatus = true;
+                        isUHD = true;
+                    }
+                    else if (arg.Contains("2007PS2") || arg.Contains("PS2") || arg.Contains("2007"))
+                    {
+                        switchStatus = false;
+                        isPS2 = true;
+                    }
+                    else if (arg.Contains("PS4NS") || arg.Contains("PS4") || arg.Contains("NS"))
+                    {
+                        switchStatus = true;
+                        isPS4NS = true;
                     }
 
-                    if (args.Length >= 3 && args[2].ToUpper() == "TRUE")
+                    if (isUHD || isPS2 || isPS4NS) 
                     {
-                        enableDebugFiles = true;
-                    }
+                        bool enableDebugFiles = false;
+                        if (args.Length >= 3 && args[2].ToUpper().Contains("TRUE"))
+                        {
+                            enableDebugFiles = true;
+                        }
 
-                    try
-                    {
-                        Action(fileInfo, switchStatus, enableDebugFiles);
+                        FileInfo fileInfo = null;
 
+                        try
+                        {
+                            fileInfo = new FileInfo(args[0]);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error in the path: " + Environment.NewLine + ex);
+                        }
+
+                        if (fileInfo != null) 
+                        {
+                            Console.WriteLine(fileInfo.Name);
+
+                            if (fileInfo.Extension.ToUpperInvariant() == ".IDXSAT" ||
+                                fileInfo.Extension.ToUpperInvariant() == ".IDXEAT")
+                            {
+                                try
+                                {
+                                    Action(fileInfo, switchStatus, isPS4NS, enableDebugFiles);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine("Error: " + ex);
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("The extension is not valid: " + fileInfo.Extension);
+                            }
+                        }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        Console.WriteLine("Error: " + ex);
+                        Console.WriteLine("The second argument is invalid.");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("The extension is not valid: " + fileInfo.Extension);
+                    Console.WriteLine("File specified does not exist.");
                 }
-
             }
             else
             {
-                Console.WriteLine("File specified does not exist.");
+                Console.WriteLine("The second argument is required.");
+                Console.WriteLine("Press any key to close the console.");
+                Console.ReadKey();
             }
 
             Console.WriteLine("Finished!!!");
         }
 
-        private static void Action(FileInfo fileInfo, bool switchStatus, bool enableDebugFiles) 
+        private static void Action(FileInfo fileInfo, bool switchStatus, bool isPS4NS, bool enableDebugFiles)
         {
             string baseDirectory = Path.GetDirectoryName(fileInfo.FullName);
             string baseFileName = Path.GetFileNameWithoutExtension(fileInfo.FullName);
@@ -146,7 +189,7 @@ namespace RE4_SAT_EAT_REPACK
                 
                 var final = RepackOBJ.Repack(streamObj);
                 var startGroups = Group.StartGroup.FirstStep(final);
-                var finalGroups = Group.FinalGroupSteps.GetFinalGroupStructure(startGroups);
+                var finalGroups = Group.FinalGroupSteps.GetFinalGroupStructure(startGroups, isPS4NS);
 
                 esatObj[i] = (final, finalGroups);
 
@@ -170,7 +213,7 @@ namespace RE4_SAT_EAT_REPACK
             FileInfo esatinfo = new FileInfo(Path.Combine(baseDirectory, baseFileName + "." + finalExtension));
             Console.WriteLine("Creating the file: " + esatinfo.Name);
 
-            MakeFile.CreateFile(esatinfo, idx, esatObj, switchStatus);
+            MakeFile.CreateFile(esatinfo, idx, esatObj, switchStatus, isPS4NS);
 
             //------------------
             sw.Stop();

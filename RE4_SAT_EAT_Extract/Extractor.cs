@@ -9,7 +9,7 @@ namespace RE4_SAT_EAT_EXTRACT
 {
     public static class Extractor
     {
-        public static ESatHeader Extract(Stream stream)
+        public static ESatHeader Extract(Stream stream, bool isPS4NS)
         {
             ESatHeader header = new ESatHeader();
 
@@ -36,7 +36,7 @@ namespace RE4_SAT_EAT_EXTRACT
                 for (int i = 0; i < count; i++)
                 {
                     br.BaseStream.Position = offsets[i];
-                    ESAT esat = Extract20(ref br);
+                    ESAT esat = Extract20(ref br, isPS4NS);
                     header.Esat[i] = esat;
                 }
 
@@ -49,7 +49,7 @@ namespace RE4_SAT_EAT_EXTRACT
                 header.Esat = new ESAT[1];
 
                 br.BaseStream.Position = 0;
-                ESAT esat = Extract20(ref br);
+                ESAT esat = Extract20(ref br, isPS4NS);
                 header.Esat[0] = esat;
             }
 
@@ -58,7 +58,7 @@ namespace RE4_SAT_EAT_EXTRACT
         }
 
 
-        private static ESAT Extract20(ref BinaryReader br)
+        private static ESAT Extract20(ref BinaryReader br, bool isPS4NS)
         {
             ESAT esat = new ESAT();
 
@@ -172,6 +172,12 @@ namespace RE4_SAT_EAT_EXTRACT
                 ushort flag = br.ReadUInt16();
 
                 uint brotherDistance = br.ReadUInt32();
+
+                if (isPS4NS)
+                {
+                    uint ps4NsExtra = br.ReadUInt32();
+                    // pois o campo acima é um offset, e no ps4/ns offsets são de 64 bytes
+                }
 
                 ushort[] face1 = new ushort[count1];
                 ushort[] face2 = new ushort[count2];

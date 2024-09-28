@@ -9,7 +9,7 @@ namespace RE4_SAT_EAT_REPACK
 {
     public static class MakeFile
     {
-        public static void CreateFile(FileInfo info, IdxEsat idx, (Structures.FinalStructure final, Group.FinalGroupStructure group)[] esatObj, bool switchStatus) 
+        public static void CreateFile(FileInfo info, IdxEsat idx, (Structures.FinalStructure final, Group.FinalGroupStructure group)[] esatObj, bool switchStatus, bool isPS4NS)
         {
             BinaryWriter bw = new BinaryWriter(info.Create());
 
@@ -33,7 +33,7 @@ namespace RE4_SAT_EAT_REPACK
                     bw.BaseStream.Position = tempOffset;
 
                     long EndOffset;
-                    Write0x20Content(ref bw, esatObj[i].final, esatObj[i].group, switchStatus, tempOffset, out EndOffset);
+                    Write0x20Content(ref bw, esatObj[i].final, esatObj[i].group, switchStatus, tempOffset, out EndOffset, isPS4NS);
 
                     tempOffset = (uint)EndOffset;
                     OffsetToOffset += 4;
@@ -41,7 +41,7 @@ namespace RE4_SAT_EAT_REPACK
             }
             else // sem conteiner
             {
-                Write0x20Content(ref bw, esatObj[0].final, esatObj[0].group, switchStatus, 0, out _);
+                Write0x20Content(ref bw, esatObj[0].final, esatObj[0].group, switchStatus, 0, out _, isPS4NS);
             }
 
             long fileLength = bw.BaseStream.Position;
@@ -57,7 +57,7 @@ namespace RE4_SAT_EAT_REPACK
             bw.Close();
         }
 
-        private static void Write0x20Content(ref BinaryWriter bw, Structures.FinalStructure final, Group.FinalGroupStructure group, bool switchStatus, long startOffset, out long EndOffset)
+        private static void Write0x20Content(ref BinaryWriter bw, Structures.FinalStructure final, Group.FinalGroupStructure group, bool switchStatus, long startOffset, out long EndOffset, bool isPS4NS)
         {
             bw.BaseStream.Position = startOffset;
 
@@ -149,7 +149,7 @@ namespace RE4_SAT_EAT_REPACK
                 BitConverter.GetBytes((ushort)item.Flag).CopyTo(line, 30);
                 BitConverter.GetBytes((uint)item.BrotherNextPos).CopyTo(line, 32);
 
-                int tempPos = 36;
+                int tempPos = isPS4NS ? 40 : 36; // no ps4/ns o campo BrotherNextPos é 64 bits e vez de 32bits
 
                 foreach (var tri in item.FloorTriangles)
                 {

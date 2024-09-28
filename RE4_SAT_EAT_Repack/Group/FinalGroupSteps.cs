@@ -8,23 +8,23 @@ namespace RE4_SAT_EAT_REPACK.Group
 {
     public static class FinalGroupSteps
     {
-        public static FinalGroupStructure GetFinalGroupStructure(GroupStructure groupStructure) 
+        public static FinalGroupStructure GetFinalGroupStructure(GroupStructure groupStructure, bool isPS4NS) 
         {
             FinalGroupStructure final = new FinalGroupStructure();
 
-            Step1(ref groupStructure, ref final);
+            Step1(ref groupStructure, ref final, isPS4NS);
             Step2(ref final);
 
             return final;
         }
 
-        private static void Step1(ref GroupStructure groupStructure, ref FinalGroupStructure final) 
+        private static void Step1(ref GroupStructure groupStructure, ref FinalGroupStructure final, bool isPS4NS) 
         {
-            Recursive1(ref final, groupStructure.GroupTier0);
+            Recursive1(ref final, groupStructure.GroupTier0, isPS4NS);
         }
 
         // cria os grupos recursivamente e coloca em ordem
-        private static void Recursive1(ref FinalGroupStructure final, GroupTier groupTier) 
+        private static void Recursive1(ref FinalGroupStructure final, GroupTier groupTier, bool isPS4NS) 
         {
             FinalGroup group = new FinalGroup(groupTier.ID, groupTier.Tier);
             group.Pos = groupTier.Pos;
@@ -54,29 +54,31 @@ namespace RE4_SAT_EAT_REPACK.Group
                 group.BrotherNextStartID = groupTier.BrotherNext.ID;
             }
 
+            int groupBaseLength = isPS4NS ? 40 : 36; //parte de tamanho fixo, no ps4/ns o campo BrotherNextPos é 64 bits e vez de 32bits
+
             int Bytespadding = ((group.FloorTriangles.Count + group.SlopeTriangles.Count + group.WallTriangles.Count) % 2) * 2;
-            group.GroupBytesLenght = (uint)(36 + (group.FloorTriangles.Count * 2) + (group.SlopeTriangles.Count * 2) + (group.WallTriangles.Count * 2) + Bytespadding);
+            group.GroupBytesLenght = (uint)(groupBaseLength + (group.FloorTriangles.Count * 2) + (group.SlopeTriangles.Count * 2) + (group.WallTriangles.Count * 2) + Bytespadding);
 
             final.FinalGroupList.Add(group);
 
             if (groupTier.Child1 != null)
             {
-                Recursive1(ref final, groupTier.Child1);
+                Recursive1(ref final, groupTier.Child1, isPS4NS);
             }
 
             if (groupTier.Child2 != null)
             {
-                Recursive1(ref final, groupTier.Child2);
+                Recursive1(ref final, groupTier.Child2, isPS4NS);
             }
 
             if (groupTier.Child3 != null)
             {
-                Recursive1(ref final, groupTier.Child3);
+                Recursive1(ref final, groupTier.Child3, isPS4NS);
             }
 
             if (groupTier.Child4 != null)
             {
-                Recursive1(ref final, groupTier.Child4);
+                Recursive1(ref final, groupTier.Child4, isPS4NS);
             }
         }
 
