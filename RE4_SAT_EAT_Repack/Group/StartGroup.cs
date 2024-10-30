@@ -71,6 +71,15 @@ namespace RE4_SAT_EAT_REPACK.Group
                 }
             }
 
+            // Correção para considerar as faces que estão no limite do grouptier0
+            limits[Limits.MinX] -= 1.11111f;
+            limits[Limits.MaxX] += 1.11111f;
+            limits[Limits.MinY] -= 1.11111f;
+            limits[Limits.MaxY] += 1.11111f;
+            limits[Limits.MinZ] -= 1.11111f;
+            limits[Limits.MaxZ] += 1.11111f;
+            // ----
+
             float dimX = Math.Abs(limits[Limits.MinX] - limits[Limits.MaxX]);
             float dimY = Math.Abs(limits[Limits.MinY] - limits[Limits.MaxY]);
             float dimZ = Math.Abs(limits[Limits.MinZ] - limits[Limits.MaxZ]);

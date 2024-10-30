@@ -9,7 +9,7 @@ namespace RE4_SAT_EAT_REPACK
 {
     class Program
     {
-        public static string Version = "B.1.1.0 (2024-09-28)";
+        public static string Version = "B.1.1.1 (2024-10-30)";
 
         public static string headerText()
         {
@@ -205,7 +205,7 @@ namespace RE4_SAT_EAT_REPACK
 
                     FileInfo finalGroupPlane = new FileInfo(baseFilePath + "_" + i + ".repack.FinalGroupPlane.obj");
                     Console.WriteLine("Creating the file: " + finalGroupPlane.Name);
-                    DebugR.EsatGroupPlaneOBJ(finalGroupPlane, finalGroups);
+                    DebugR.EsatGroupPlaneOBJ(finalGroupPlane, finalGroups, final.FacesCount);
                 }
             }
 

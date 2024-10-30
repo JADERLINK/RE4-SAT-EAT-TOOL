@@ -217,7 +217,7 @@ namespace RE4_SAT_EAT_REPACK
 
         //----------------
 
-        public static void EsatGroupPlaneOBJ(FileInfo info, FinalGroupStructure esat)
+        public static void EsatGroupPlaneOBJ(FileInfo info, FinalGroupStructure esat, ushort FacesCount)
         {
             var text = info.CreateText();
             text.WriteLine(Program.headerText());
@@ -257,25 +257,25 @@ namespace RE4_SAT_EAT_REPACK
                 var bound_dim = group.Dim;
 
                 //original -- A
-                text.WriteLine("v " + 
+                text.WriteLine("v " +
                     (bound_pos.X / 100f).ToFloatString() + " " +
                     ((bound_pos.Y + climbHeight) / 100f).ToFloatString() + " " +
                     (bound_pos.Z / 100f).ToFloatString());
 
                 //X -- D
-                text.WriteLine("v " + 
+                text.WriteLine("v " +
                     ((bound_pos.X + bound_dim.X) / 100f).ToFloatString() + " " +
                     ((bound_pos.Y + climbHeight) / 100f).ToFloatString() + " " +
                     ((bound_pos.Z) / 100f).ToFloatString());
 
                 //Z -- B
-                text.WriteLine("v " + 
+                text.WriteLine("v " +
                     ((bound_pos.X) / 100f).ToFloatString() + " " +
                     ((bound_pos.Y + climbHeight) / 100f).ToFloatString() + " " +
                     ((bound_pos.Z + bound_dim.Z) / 100f).ToFloatString());
 
                 //XZ -- C
-                text.WriteLine("v " + 
+                text.WriteLine("v " +
                     ((bound_pos.X + bound_dim.X) / 100f).ToFloatString() + " " +
                     ((bound_pos.Y + climbHeight) / 100f).ToFloatString() + " " +
                     ((bound_pos.Z + bound_dim.Z) / 100f).ToFloatString());
@@ -288,6 +288,38 @@ namespace RE4_SAT_EAT_REPACK
 
             }
 
+            text.WriteLine("### Triangle Faces Count: " + FacesCount);
+            HashSet<int> contains = new HashSet<int>();
+            foreach (var group in esat.FinalGroupList)
+            {
+                foreach (var tri in group.FloorTriangles)
+                {
+                    contains.Add(tri);
+                }
+
+                foreach (var tri in group.SlopeTriangles)
+                {
+                    contains.Add(tri);
+                }
+
+                foreach (var tri in group.WallTriangles)
+                {
+                    contains.Add(tri);
+                }
+            }
+
+            var containsOrder = contains.OrderBy(x => x).ToArray();
+            text.WriteLine("# Triangles contained in the groups: " + string.Join(" ", containsOrder) + " #");
+
+            List<int> notContains = new List<int>();
+            for (int i = 0; i < FacesCount; i++)
+            {
+                if (!containsOrder.Contains(i))
+                {
+                    notContains.Add(i);
+                }
+            }
+            text.WriteLine("# Triangles NOT contained in groups: " + string.Join(" ", notContains) + " #");
 
             text.Close();
         }
