@@ -9,10 +9,10 @@ namespace RE4_SAT_EAT_EXTRACT
 {
     public static class Debug
     {
-        public static void EsatDebugOBJ(FileInfo info, ESAT esat, bool switchStatus)
+        public static void EsatDebugOBJ(FileInfo info, ESAT esat, SwitchStatus switchStatus)
         {
             var text = info.CreateText();
-            text.WriteLine(Program.headerText());
+            text.WriteLine(Program.HeaderText());
             text.WriteLine("");
 
             text.WriteLine("#Info:");
@@ -76,12 +76,19 @@ namespace RE4_SAT_EAT_EXTRACT
                 key.s3 = face.Status3;
 
                 byte[] status = new byte[4];
-                if (switchStatus)
+                if (switchStatus == SwitchStatus.TrueUHD)
                 {
                     status[0] = key.s2;
                     status[1] = key.s3;
                     status[2] = key.s0;
                     status[3] = key.s1;
+                }
+                else if (switchStatus == SwitchStatus.BigEndian)
+                {
+                    status[0] = key.s3;
+                    status[1] = key.s2;
+                    status[2] = key.s1;
+                    status[3] = key.s0;
                 }
                 else
                 {
@@ -105,10 +112,10 @@ namespace RE4_SAT_EAT_EXTRACT
             text.Close();
         }
 
-        public static void EsatLinesOBJ(FileInfo info, ESAT esat, bool switchStatus) 
+        public static void EsatLinesOBJ(FileInfo info, ESAT esat, SwitchStatus switchStatus) 
         {
             var text = info.CreateText();
-            text.WriteLine(Program.headerText());
+            text.WriteLine(Program.HeaderText());
             text.WriteLine("");
 
             text.WriteLine("#Info:");
@@ -190,12 +197,19 @@ namespace RE4_SAT_EAT_EXTRACT
                 key.s3 = face.Status3;
 
                 byte[] status = new byte[4];
-                if (switchStatus)
+                if (switchStatus == SwitchStatus.TrueUHD)
                 {
                     status[0] = key.s2;
                     status[1] = key.s3;
                     status[2] = key.s0;
                     status[3] = key.s1;
+                }
+                else if (switchStatus == SwitchStatus.BigEndian)
+                {
+                    status[0] = key.s3;
+                    status[1] = key.s2;
+                    status[2] = key.s1;
+                    status[3] = key.s0;
                 }
                 else
                 {
@@ -283,7 +297,7 @@ namespace RE4_SAT_EAT_EXTRACT
         public static void EsatGroupBoxOBJ(FileInfo info, ESAT esat) 
         {
             var text = info.CreateText();
-            text.WriteLine(Program.headerText());
+            text.WriteLine(Program.HeaderText());
             text.WriteLine("");
 
             int index = 1;
@@ -387,7 +401,7 @@ namespace RE4_SAT_EAT_EXTRACT
         public static void EsatGroupArrowOBJ(FileInfo info, ESAT esat) 
         {
             var text = info.CreateText();
-            text.WriteLine(Program.headerText());
+            text.WriteLine(Program.HeaderText());
             text.WriteLine("");
 
             int index = 1;
@@ -456,7 +470,7 @@ namespace RE4_SAT_EAT_EXTRACT
         public static void EsatGroupPlaneOBJ(FileInfo info, ESAT esat) 
         {
             var text = info.CreateText();
-            text.WriteLine(Program.headerText());
+            text.WriteLine(Program.HeaderText());
             text.WriteLine("");
 
             int index = 1;

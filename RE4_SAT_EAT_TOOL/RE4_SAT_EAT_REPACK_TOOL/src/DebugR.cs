@@ -14,7 +14,7 @@ namespace RE4_SAT_EAT_REPACK
         public static void EsatDebugOBJ(FileInfo info, FinalStructure esat)
         {
             var text = info.CreateText();
-            text.WriteLine(Program.headerText());
+            text.WriteLine(Program.HeaderText());
             text.WriteLine("");
 
             text.WriteLine("#Info:");
@@ -104,7 +104,7 @@ namespace RE4_SAT_EAT_REPACK
         public static void EsatGroupPlaneOBJ(FileInfo info, GroupStructure esat)
         {
             var text = info.CreateText();
-            text.WriteLine(Program.headerText());
+            text.WriteLine(Program.HeaderText());
             text.WriteLine("");
 
             int index = 1;
@@ -220,7 +220,7 @@ namespace RE4_SAT_EAT_REPACK
         public static void EsatGroupPlaneOBJ(FileInfo info, FinalGroupStructure esat, ushort FacesCount)
         {
             var text = info.CreateText();
-            text.WriteLine(Program.headerText());
+            text.WriteLine(Program.HeaderText());
             text.WriteLine("");
 
             int index = 1;

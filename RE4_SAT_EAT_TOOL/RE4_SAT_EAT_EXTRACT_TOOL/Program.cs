@@ -5,15 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace RE4_SAT_EAT_REPACK
+namespace RE4_SAT_EAT_EXTRACT
 {
     class Program
     {
-        public static string Version = "B.1.1.1 (2024-10-30)";
+        public static string Version = "V.1.2.0 (2024-11-25)";
 
-        public static string headerText()
+        public static string HeaderText()
         {
-            return "# RE4_SAT_EAT_REPACK" + Environment.NewLine +
+            return "# RE4_SAT_EAT_EXTRACT" + Environment.NewLine +
                    "# by: JADERLINK" + Environment.NewLine +
                    "# youtube.com/@JADERLINK" + Environment.NewLine +
                    "# Thanks to \"mariokart64n\" and \"zatarita\"" + Environment.NewLine +
@@ -24,7 +24,7 @@ namespace RE4_SAT_EAT_REPACK
         {
             System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 
-            Console.WriteLine(headerText());
+            Console.WriteLine(HeaderText());
 
             if (args.Length == 0)
             {
@@ -37,30 +37,37 @@ namespace RE4_SAT_EAT_REPACK
             {
                 if (File.Exists(args[0]))
                 {
-                    bool switchStatus = false;
-
-                    bool isUHD = false;
-                    bool isPS2 = false;
-                    bool isPS4NS = false;
+                    IsVersion isVersion = IsVersion.Null;
+                    SwitchStatus switchStatus = SwitchStatus.Null;
 
                     string arg = args[1].ToUpper();
                     if (arg.Contains("UHD"))
                     {
-                        switchStatus = true;
-                        isUHD = true;
+                        switchStatus = SwitchStatus.TrueUHD;
+                        isVersion = IsVersion.IsUHD;
                     }
                     else if (arg.Contains("2007PS2") || arg.Contains("PS2") || arg.Contains("2007"))
                     {
-                        switchStatus = false;
-                        isPS2 = true;
+                        switchStatus = SwitchStatus.FalsePs2;
+                        isVersion = IsVersion.IsPS2;
                     }
                     else if (arg.Contains("PS4NS") || arg.Contains("PS4") || arg.Contains("NS"))
                     {
-                        switchStatus = true;
-                        isPS4NS = true;
+                        switchStatus = SwitchStatus.TrueUHD;
+                        isVersion = IsVersion.IsPS4NS;
+                    }
+                    else if (arg.Contains("BIG"))
+                    {
+                        switchStatus = SwitchStatus.BigEndian;
+                        isVersion = IsVersion.IsBigEndian;
+                    }
+                    else if (arg.Contains("RE4VR"))
+                    {
+                        switchStatus = SwitchStatus.TrueUHD;
+                        isVersion = IsVersion.IsRE4VR;
                     }
 
-                    if (isUHD || isPS2 || isPS4NS) 
+                    if (isVersion != IsVersion.Null && switchStatus != SwitchStatus.Null)
                     {
                         bool enableDebugFiles = false;
                         if (args.Length >= 3 && args[2].ToUpper().Contains("TRUE"))
@@ -83,12 +90,13 @@ namespace RE4_SAT_EAT_REPACK
                         {
                             Console.WriteLine(fileInfo.Name);
 
-                            if (fileInfo.Extension.ToUpperInvariant() == ".IDXSAT" ||
-                                fileInfo.Extension.ToUpperInvariant() == ".IDXEAT")
+                            if (fileInfo.Extension.ToUpperInvariant() == ".SAT" ||
+                                fileInfo.Extension.ToUpperInvariant() == ".EAT" ||
+                                fileInfo.Extension.ToUpperInvariant() == ".SCE")
                             {
                                 try
                                 {
-                                    Action(fileInfo, switchStatus, isPS4NS, enableDebugFiles);
+                                    Action(fileInfo, switchStatus, isVersion, enableDebugFiles);
                                 }
                                 catch (Exception ex)
                                 {
@@ -99,6 +107,7 @@ namespace RE4_SAT_EAT_REPACK
                             {
                                 Console.WriteLine("The extension is not valid: " + fileInfo.Extension);
                             }
+
                         }
                     }
                     else
@@ -121,12 +130,11 @@ namespace RE4_SAT_EAT_REPACK
             Console.WriteLine("Finished!!!");
         }
 
-        private static void Action(FileInfo fileInfo, bool switchStatus, bool isPS4NS, bool enableDebugFiles)
+        private static void Action(FileInfo fileInfo, SwitchStatus switchStatus, IsVersion isVersion, bool enableDebugFiles) 
         {
             string baseDirectory = Path.GetDirectoryName(fileInfo.FullName);
             string baseFileName = Path.GetFileNameWithoutExtension(fileInfo.FullName);
             string baseExtension = Path.GetExtension(fileInfo.FullName).ToLowerInvariant().Replace(".", "");
-            string finalExtension = baseExtension.ToUpperInvariant().Replace("IDX", "");
 
             string baseFilePath = Path.Combine(baseDirectory, baseFileName);
 
@@ -135,94 +143,58 @@ namespace RE4_SAT_EAT_REPACK
 
             if (regex.IsMatch(baseFileName))
             {
-                baseFilePath = Path.Combine(baseDirectory, baseFileName + "_" + finalExtension);
+                baseFilePath = Path.Combine(baseDirectory, baseFileName + "_" + baseExtension.ToUpperInvariant());
             }
 
-            var stream = new StreamReader(fileInfo.OpenRead(), Encoding.ASCII); // idxsat/idxeat
-            var idx = IdxLoader.Loader(stream);
-            stream.Close();
+            FileStream stream = fileInfo.OpenRead();
+            ESatHeader esatHeader = null;
 
-            if ( !(idx.Magic == 0x80 || idx.Magic == 0x20))
+            try
             {
-                Console.WriteLine("The magic is incorrect, it should be 80 or 20");
-                return;
+                esatHeader = Extractor.Extract(stream, isVersion);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                stream.Close();
             }
 
-            if (idx.Count == 0)
+            FileInfo idx = new FileInfo(Path.Combine(baseDirectory, baseFileName + ".idx" + baseExtension));
+            Console.WriteLine("Creating the file: " + idx.Name);
+            OutputFiles.IDX(idx, esatHeader);
+
+            for (int i = 0; i < esatHeader.Esat.Length; i++)
             {
-                Console.WriteLine("Count must be greater than 0");
-                return;
-            }
-
-            bool ObjDoesNotExist = false;
-
-            for (int i = 0; i < idx.Count; i++)
-            {
-                string obj = baseFilePath + "_" + i + ".obj";
-                if (!File.Exists(obj))
-                {
-                    ObjDoesNotExist = true;
-                }
-            }
-
-            if (ObjDoesNotExist)
-            {
-                Console.WriteLine("One of the required .Obj files does not exist");
-                return;
-            }
-
-            // fim das validações
-            //---------------
-
-            Console.WriteLine("Start of the time count to recreate the collision file");
-            System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
-            //-------------------
-
-            (Structures.FinalStructure final, Group.FinalGroupStructure group)[] esatObj = new (Structures.FinalStructure final, Group.FinalGroupStructure group)[idx.Count];
-
-            for (int i = 0; i < idx.Count; i++)
-            {
-                string obj = baseFilePath + "_" + i + ".obj";
-                FileInfo objFileInfo = new FileInfo(obj);
-                Console.WriteLine("Reading obj file: " + objFileInfo.Name);
-                var streamObj = new StreamReader(objFileInfo.OpenRead(), Encoding.ASCII);
-                
-                var final = RepackOBJ.Repack(streamObj);
-                var startGroups = Group.StartGroup.FirstStep(final);
-                var finalGroups = Group.FinalGroupSteps.GetFinalGroupStructure(startGroups, isPS4NS);
-
-                esatObj[i] = (final, finalGroups);
+                FileInfo obj = new FileInfo(baseFilePath + "_" + i + ".obj");
+                Console.WriteLine("Creating the file: " + obj.Name);
+                OutputFiles.EsatOBJ(obj, esatHeader.Esat[i], switchStatus);
 
                 if (enableDebugFiles)
                 {
-                    FileInfo debugr = new FileInfo(baseFilePath + "_" + i + ".repack.obj");
-                    Console.WriteLine("Creating the file: " + debugr.Name);
-                    DebugR.EsatDebugOBJ(debugr, final);
+                    FileInfo debugObj = new FileInfo(baseFilePath + "_" + i + ".Debug.obj");
+                    Console.WriteLine("Creating the file: " + debugObj.Name);
+                    Debug.EsatDebugOBJ(debugObj, esatHeader.Esat[i], switchStatus);
 
-                    FileInfo groupPlane = new FileInfo(baseFilePath + "_" + i + ".repack.GroupPlane.obj");
+                    FileInfo linesObj = new FileInfo(baseFilePath + "_" + i + ".Lines.obj");
+                    Console.WriteLine("Creating the file: " + linesObj.Name);
+                    Debug.EsatLinesOBJ(linesObj, esatHeader.Esat[i], switchStatus);
+
+                    FileInfo groupBox = new FileInfo(baseFilePath + "_" + i + ".GroupBox.obj");
+                    FileInfo groupArrow = new FileInfo(baseFilePath + "_" + i + ".GroupArrow.obj");
+                    FileInfo groupPlane = new FileInfo(baseFilePath + "_" + i + ".GroupPlane.obj");
+
+                    Console.WriteLine("Creating the file: " + groupBox.Name);
+                    Debug.EsatGroupBoxOBJ(groupBox, esatHeader.Esat[i]);
+                    Console.WriteLine("Creating the file: " + groupArrow.Name);
+                    Debug.EsatGroupArrowOBJ(groupArrow, esatHeader.Esat[i]);
                     Console.WriteLine("Creating the file: " + groupPlane.Name);
-                    DebugR.EsatGroupPlaneOBJ(groupPlane, startGroups);
-
-                    FileInfo finalGroupPlane = new FileInfo(baseFilePath + "_" + i + ".repack.FinalGroupPlane.obj");
-                    Console.WriteLine("Creating the file: " + finalGroupPlane.Name);
-                    DebugR.EsatGroupPlaneOBJ(finalGroupPlane, finalGroups, final.FacesCount);
+                    Debug.EsatGroupPlaneOBJ(groupPlane, esatHeader.Esat[i]);
                 }
             }
-
-            
-            FileInfo esatinfo = new FileInfo(Path.Combine(baseDirectory, baseFileName + "." + finalExtension));
-            Console.WriteLine("Creating the file: " + esatinfo.Name);
-
-            MakeFile.CreateFile(esatinfo, idx, esatObj, switchStatus, isPS4NS);
-
-            //------------------
-            sw.Stop();
-            Console.WriteLine("Taken time in Milliseconds: " + sw.ElapsedMilliseconds);
         }
 
-
-
     }
-
-
 }

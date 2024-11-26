@@ -4,21 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using SimpleEndianBinaryIO;
 
 namespace RE4_SAT_EAT_EXTRACT
 {
     public static class Extractor
     {
-        public static ESatHeader Extract(Stream stream, bool isPS4NS)
+        public static ESatHeader Extract(Stream stream, IsVersion isVersion)
         {
             ESatHeader header = new ESatHeader();
 
-            BinaryReader br = new BinaryReader(stream);
+            Endianness endian = isVersion == IsVersion.IsBigEndian ? Endianness.BigEndian : Endianness.LittleEndian;
+
+            EndianBinaryReader br = new EndianBinaryReader(stream, endian);
 
             byte magic = br.ReadByte();
             header.Magic = magic;
 
-            if (magic == 0x80)
+            if (magic != 0xFF && isVersion == IsVersion.IsRE4VR)
+            {
+                throw new ArgumentException("This file is not from the Re4Vr version!");
+            }
+            else if (magic == 0xFF && isVersion != IsVersion.IsRE4VR)
+            {
+                throw new ArgumentException("This is a file from the Re4Vr version!");
+            }
+            else if (magic == 0x80)
             {
                 byte count = br.ReadByte();
                 ushort dummy = br.ReadUInt16();
@@ -36,29 +47,26 @@ namespace RE4_SAT_EAT_EXTRACT
                 for (int i = 0; i < count; i++)
                 {
                     br.BaseStream.Position = offsets[i];
-                    ESAT esat = Extract20(ref br, isPS4NS);
+                    ESAT esat = Extract20(ref br, isVersion);
                     header.Esat[i] = esat;
                 }
-
-
             }
-            else if (magic == 0x20)
+            else if (magic == 0x20 || magic == 0xFF)
             {
                 header.Count = 1;
                 header.Dummy = 0;
                 header.Esat = new ESAT[1];
 
                 br.BaseStream.Position = 0;
-                ESAT esat = Extract20(ref br, isPS4NS);
+                ESAT esat = Extract20(ref br, isVersion);
                 header.Esat[0] = esat;
             }
-
 
             return header;
         }
 
 
-        private static ESAT Extract20(ref BinaryReader br, bool isPS4NS)
+        private static ESAT Extract20(ref EndianBinaryReader br, IsVersion isVersion)
         {
             ESAT esat = new ESAT();
 
@@ -130,7 +138,7 @@ namespace RE4_SAT_EAT_EXTRACT
                 ushort edge_index1 = br.ReadUInt16();
                 ushort edge_index2 = br.ReadUInt16();
                 ushort edge_index3 = br.ReadUInt16();
-                ushort d07 = br.ReadUInt16(); // padding  
+                ushort d07 = br.ReadUInt16(); // padding
                 byte status0 = br.ReadByte();
                 byte status1 = br.ReadByte();
                 byte status2 = br.ReadByte();
@@ -173,7 +181,7 @@ namespace RE4_SAT_EAT_EXTRACT
 
                 uint brotherDistance = br.ReadUInt32();
 
-                if (isPS4NS)
+                if (isVersion == IsVersion.IsPS4NS)
                 {
                     uint ps4NsExtra = br.ReadUInt32();
                     // pois o campo acima é um offset, e no ps4/ns offsets são de 64 bytes
@@ -183,30 +191,34 @@ namespace RE4_SAT_EAT_EXTRACT
                 ushort[] face2 = new ushort[count2];
                 ushort[] face3 = new ushort[count3];
 
-
-                for (int f = 0; f < count1; f++)
+                if (isVersion != IsVersion.IsRE4VR || (isVersion == IsVersion.IsRE4VR && flag == 2))
                 {
-                    face1[f] = br.ReadUInt16();
-                }
+                    for (int f = 0; f < count1; f++)
+                    {
+                        face1[f] = br.ReadUInt16();
+                    }
 
-                for (int f = 0; f < count2; f++)
-                {
-                    face2[f] = br.ReadUInt16();
-                }
+                    for (int f = 0; f < count2; f++)
+                    {
+                        face2[f] = br.ReadUInt16();
+                    }
 
-                for (int f = 0; f < count3; f++)
-                {
-                    face3[f] = br.ReadUInt16();
+                    for (int f = 0; f < count3; f++)
+                    {
+                        face3[f] = br.ReadUInt16();
+                    }
                 }
 
                 // padding
-
-                int soma = (count1 + count2 + count3);
-                int rest = soma % 2;
-
-                for (int p = 0; p < rest; p++)
+                if (isVersion != IsVersion.IsRE4VR)
                 {
-                    ushort padding = br.ReadUInt16();
+                    int sum = (count1 + count2 + count3);
+                    int rest = sum % 2;
+
+                    for (int p = 0; p < rest; p++)
+                    {
+                        _ = br.ReadUInt16(); // padding
+                    }
                 }
 
                 long tempPos = br.BaseStream.Position;

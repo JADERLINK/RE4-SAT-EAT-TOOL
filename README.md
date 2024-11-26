@@ -1,13 +1,17 @@
 # RE4-SAT-EAT-TOOL
-Extract and repack RE4 SAT-EAT files (RE4 2007/PS2/UHD/PS4/NS)
+Extract and repack RE4 SAT-EAT files (RE4 2007/PS2/UHD/PS4/NS/GC/WII/XBOX360/RE4VR)
 
 **Translate from Portuguese Brazil**
 
-Programas destinados a extrair e reempacotar arquivo .SAT .EAT do RE4 de PS2, 2007, UHD.
+Programas destinados a extrair e reempacotar arquivo SAT e EAT do RE4;
 <br>SAT: é o arquivo de colisão para o player, inimigos, Ashley e a câmera;
 <br>EAT: é o arquivo de colisão para os projéteis, granadas e ovos, e para os itens que cai ao atirar neles;
 <br>Nota: Fiz vários testes, porém não posso garantir que vai funcionar 100% das vezes, caso você encontre algum erro que possa ser do programa, me contate (e-mail);
 <br>Aviso: as Normals das faces do modelo 3d para SAT/EAT devem ser do tipo "Flat", isto é, a normal tem que ser perpendicular à face (angulo de 90º), se não fizer isso a colisão vai ficar bugando.
+
+**Update V.1.2.0**
+<br>Adicionado suporte para as versões Big Endian (GC/WII/Xbox360);
+<br>adicionado suporte para a versão Re4VR (o magic desse versão é 0xFF)
 
 **Update B.1.1.1**
 <br> Corrigido erro no repack no qual algumas faces nos limites do "groupTier0" ficavam fora dos grupos, e não funcionava a colisão.
@@ -105,8 +109,8 @@ Minha tool para ambas as versões do jogo:
 ## Código de terceiro:
 
 [ObjLoader by chrisjansson](https://github.com/chrisjansson/ObjLoader):
-Encontra-se no RE4_SAT_EAT_REPACK, código modificado, as modificações podem ser vistas aqui: [link](https://github.com/JADERLINK/ObjLoader).
+Encontra-se em RE4_SAT_EAT_TOOL/CjClutter.ObjLoader.Loader, código modificado, as modificações podem ser vistas aqui: [link](https://github.com/JADERLINK/ObjLoader).
 
 **At.te: JADERLINK**
 <br>Thanks to "mariokart64n" and "zatarita"
-<br>2024-10-30
+<br>2024-11-25

@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34031.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RE4_SAT_EAT_EXTRACT_TOOL", "RE4_SAT_EAT_EXTRACT_TOOL\RE4_SAT_EAT_EXTRACT_TOOL.csproj", "{ED33B99A-59C8-4B2C-8D97-F0FE77FF7D86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RE4_SAT_EAT_REPACK_TOOL", "RE4_SAT_EAT_REPACK_TOOL\RE4_SAT_EAT_REPACK_TOOL.csproj", "{B6106024-8BCC-4B05-943C-8A9CF42390B1}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CjClutter.ObjLoader.Loader", "CjClutter.ObjLoader.Loader\CjClutter.ObjLoader.Loader.shproj", "{8A3A7579-5EF1-448E-A7E3-2BF569F56ED4}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SimpleEndianBinaryIO", "SimpleEndianBinaryIO\SimpleEndianBinaryIO.shproj", "{5DDB0D8F-D1EA-479F-8FAC-BE2B5C6BAB65}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SimpleEndianBinaryIO\SimpleEndianBinaryIO.projitems*{5ddb0d8f-d1ea-479f-8fac-be2b5c6bab65}*SharedItemsImports = 13
+		CjClutter.ObjLoader.Loader\CjClutter.ObjLoader.Loader.projitems*{8a3a7579-5ef1-448e-a7e3-2bf569f56ed4}*SharedItemsImports = 13
+		CjClutter.ObjLoader.Loader\CjClutter.ObjLoader.Loader.projitems*{b6106024-8bcc-4b05-943c-8a9cf42390b1}*SharedItemsImports = 4
+		SimpleEndianBinaryIO\SimpleEndianBinaryIO.projitems*{b6106024-8bcc-4b05-943c-8a9cf42390b1}*SharedItemsImports = 4
+		SimpleEndianBinaryIO\SimpleEndianBinaryIO.projitems*{ed33b99a-59c8-4b2c-8d97-f0fe77ff7d86}*SharedItemsImports = 4
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED33B99A-59C8-4B2C-8D97-F0FE77FF7D86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED33B99A-59C8-4B2C-8D97-F0FE77FF7D86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED33B99A-59C8-4B2C-8D97-F0FE77FF7D86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED33B99A-59C8-4B2C-8D97-F0FE77FF7D86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6106024-8BCC-4B05-943C-8A9CF42390B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6106024-8BCC-4B05-943C-8A9CF42390B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6106024-8BCC-4B05-943C-8A9CF42390B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6106024-8BCC-4B05-943C-8A9CF42390B1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DFB231EE-AC03-46C4-98B9-9FFBE7E3C9F7}
+	EndGlobalSection
+EndGlobal

@@ -18,11 +18,22 @@ namespace RE4_SAT_EAT_REPACK
             //--------
 
             // load .obj file
-            var objLoaderFactory = new ObjLoader.Loader.Loaders.ObjLoaderFactory();
-            var objLoader = objLoaderFactory.Create();
-            ObjLoader.Loader.Loaders.LoadResult arqObj = objLoader.Load(streamReader);
-            streamReader.Close();
-
+            ObjLoader.Loader.Loaders.LoadResult arqObj = null;
+            try
+            {
+                var objLoaderFactory = new ObjLoader.Loader.Loaders.ObjLoaderFactory();
+                var objLoader = objLoaderFactory.Create();
+                arqObj = objLoader.Load(streamReader);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally 
+            {
+                streamReader.Close();
+            }
+ 
             //conjunto de faces
             StartStructure ObjList = new StartStructure();
 

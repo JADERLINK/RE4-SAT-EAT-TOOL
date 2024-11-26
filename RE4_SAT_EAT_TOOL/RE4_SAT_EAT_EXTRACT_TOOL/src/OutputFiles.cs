@@ -12,7 +12,7 @@ namespace RE4_SAT_EAT_EXTRACT
         public static void IDX(FileInfo info, ESatHeader header)
         {
             var text = info.CreateText();
-            text.WriteLine(Program.headerText());
+            text.WriteLine(Program.HeaderText());
             text.WriteLine("");
             text.WriteLine("Magic:" + header.Magic.ToString("X2"));
             text.WriteLine("Count:" + header.Count);
@@ -20,10 +20,10 @@ namespace RE4_SAT_EAT_EXTRACT
             text.Close();
         }
 
-        public static void EsatOBJ(FileInfo info, ESAT esat, bool switchStatus)
+        public static void EsatOBJ(FileInfo info, ESAT esat, SwitchStatus switchStatus)
         {
             var text = info.CreateText();
-            text.WriteLine(Program.headerText());
+            text.WriteLine(Program.HeaderText());
             text.WriteLine("");
 
             for (int i = 0; i < esat.Vertex_pos_count; i++)
@@ -56,11 +56,17 @@ namespace RE4_SAT_EAT_EXTRACT
             for (int i = 0; i < esat.Faces.Length; i++)
             {
                 Status3Key key = new Status3Key();
-                if (switchStatus)
+                if (switchStatus == SwitchStatus.TrueUHD)
                 {
                     key.s0 = esat.Faces[i].Status2;
                     key.s1 = esat.Faces[i].Status3;
                     key.s2 = esat.Faces[i].Status0;
+                }
+                else if (switchStatus == SwitchStatus.BigEndian)
+                {
+                    key.s0 = esat.Faces[i].Status3;
+                    key.s1 = esat.Faces[i].Status2;
+                    key.s2 = esat.Faces[i].Status1;
                 }
                 else
                 {
